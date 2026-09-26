@@ -46,4 +46,25 @@
 
     revealItems.forEach((item) => observer.observe(item));
   }
+
+  const lightbox = document.querySelector('#screen-lightbox');
+  const lightboxImage = lightbox?.querySelector('img');
+  const lightboxCaption = lightbox?.querySelector('p');
+  const lightboxClose = lightbox?.querySelector('.lightbox-close');
+
+  document.querySelectorAll('.screen-shot').forEach((shot) => {
+    shot.addEventListener('click', () => {
+      if (!lightbox || !lightboxImage || !lightboxCaption) return;
+      const preview = shot.querySelector('img');
+      lightboxImage.src = shot.dataset.image || '';
+      lightboxImage.alt = preview?.alt || '';
+      lightboxCaption.textContent = shot.dataset.caption || '';
+      lightbox.showModal();
+    });
+  });
+
+  lightboxClose?.addEventListener('click', () => lightbox?.close());
+  lightbox?.addEventListener('click', (event) => {
+    if (event.target === lightbox) lightbox.close();
+  });
 })();
